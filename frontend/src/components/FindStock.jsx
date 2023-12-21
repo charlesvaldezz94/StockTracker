@@ -4,12 +4,22 @@ import axios from "axios";
 const FindStock = ({ apiKey }) => {
   const [symbol, setSymbol] = useState("");
   const [stocks, setStocks] = useState([]);
+  const [rateLimitExceeded, setRateLimitExceeded] = useState(false);
 
   const addStock = async () => {
     try {
       const response = await axios.get(
         `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`
       );
+
+      // Check for rate limit message
+      if (
+        response.data.Information &&
+        response.data.Information.includes("Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day.")
+      ) {
+        setRateLimitExceeded(true);
+        return;
+      }
 
       if (
         !response.data["Global Quote"] ||
@@ -48,15 +58,19 @@ const FindStock = ({ apiKey }) => {
         </span>
       </div>
       <div className="findStocksList">
-        <ul>
-          {stocks.map((stock, index) => (
-            <div className="stocksCard" key={index}>
-              <div className="stockCardTitle"> {stock.symbol} </div>
-              <div className="stockCardPrice"> {stock.price} </div>
-              <div className="stockCardRising"> {stock.symbol} </div>
-            </div>
-          ))}
-        </ul>
+        {rateLimitExceeded ? (
+          <p>Maximum API calls for the day reached. Please try again tomorrow.</p>
+        ) : (
+          <ul>
+            {stocks.map((stock, index) => (
+              <div className="stocksCard" key={index}>
+                <div className="stockCardTitle"> {stock.symbol} </div>
+                <div className="stockCardPrice"> {stock.price} </div>
+                <div className="stockCardRising"> {stock.symbol} </div>
+              </div>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );

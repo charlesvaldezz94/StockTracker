@@ -1,0 +1,49 @@
+.navbarContainer {
+  width: 100vw;
+  border-bottom: solid 2px rgb(83, 196, 158);
+  margin-bottom: 5vh;
+  margin-top: 5vh;
+  padding-left: 3vw;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 60vw;
+  padding-bottom: 1vw;
+}
+
+.navbarLoginButton {
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgb(83, 196, 158);
+  font-size: 20px;
+  font-weight: lighter;
+}
+
+.navbarLoginButton:hover {
+  filter: brightness(150%);
+  cursor: pointer;
+}
+
+nav a {
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgb(83, 196, 158);
+  font-size: 20px;
+  font-weight: lighter;
+}
+
+nav a:hover {
+  filter: brightness(150%);
+}
+
+.navbarHomePageButton a img {
+  width: 300px;
+}
+
+.navbarHomePageButton a img:hover {
+  filter: brightness(150%);
+}
