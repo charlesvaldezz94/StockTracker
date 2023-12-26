@@ -28,7 +28,7 @@ const Home = ({ apiKey }) => {
     const fetchTopStocks = async () => {
       try {
         if (currentUser) {
-          const stockSymbols = ["MSFT", "FB", "AMZN", "SONY"];
+          const stockSymbols = ["MSFT", "META", "AMZN", "SONY"];
           const stockDataPromises = stockSymbols.map(async (symbol) => {
             const response = await axios.get(
               `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${apiKey}`
@@ -71,8 +71,10 @@ const Home = ({ apiKey }) => {
     <div className="homeContainer">
       <div className="homeTopContainer">
         <div className="homeTitle">
+          <img src="/images/stocks.png" className="titleStockImage" />
           Welcome to StockTrackr
           {currentUser && <span> {currentUser.email}!</span>}
+          <img src="/images/stocks.png" className="titleStockImage" />
         </div>
       </div>
       <div className="homeContentContainer">
@@ -84,85 +86,129 @@ const Home = ({ apiKey }) => {
               stocks.
             </div>
 
-            <div className="stockInfoContainer"></div>
-            {/* Render example stocks */}
-            {exampleStocks.map((exampleStock, index) => (
-              <div key={index} className="stockInfo">
-                <h3>{exampleStock.symbol}</h3>
-                {/* Display example stock data */}
-                {exampleStock.data &&
-                exampleStock.data["Time Series (5min)"] &&
-                Object.keys(exampleStock.data["Time Series (5min)"]).length >
-                  0 ? (
-                  <div className="stockInformation">
-                    <p>
-                      <strong>Open:</strong>
-                      {
-                        exampleStock.data["Time Series (5min)"][
-                          Object.keys(
-                            exampleStock.data["Time Series (5min)"]
-                          )[0]
-                        ]["1. open"]
-                      }
-                    </p>
-                    <p>
-                      <strong>High:</strong>
-                      {
-                        exampleStock.data["Time Series (5min)"][
-                          Object.keys(
-                            exampleStock.data["Time Series (5min)"]
-                          )[0]
-                        ]["2. high"]
-                      }
-                    </p>
-                    <p>
-                      <strong>Low:</strong>
-                      {
-                        exampleStock.data["Time Series (5min)"][
-                          Object.keys(
-                            exampleStock.data["Time Series (5min)"]
-                          )[0]
-                        ]["3. low"]
-                      }
-                    </p>
-                    <p>
-                      <strong>Close:</strong>
-                      {
-                        exampleStock.data["Time Series (5min)"][
-                          Object.keys(
-                            exampleStock.data["Time Series (5min)"]
-                          )[0]
-                        ]["4. close"]
-                      }
-                    </p>
-                    <p>
-                      <strong>Volume:</strong>
-                      {
-                        exampleStock.data["Time Series (5min)"][
-                          Object.keys(
-                            exampleStock.data["Time Series (5min)"]
-                          )[0]
-                        ]["5. volume"]
-                      }
-                    </p>
-                  </div>
-                ) : (
-                  <p>Data not available</p>
-                )}
-              </div>
-            ))}
-            {/* Render actual stocks */}
-            {topStocks.map((stock, index) => (
-              <div key={index} className="stockInfoReal">
-                {/* Display rate limit exceeded message if necessary */}
-                {rateLimitExceeded && (
-                  <p>
-                    Maximum API calls for the day reached. Please try again
-                    tomorrow.
-                  </p>
-                )}
-              </div>
-            ))}
+            <div className="stockInfoContainer">
+              {/* Render example stocks */}
+              {exampleStocks.map((exampleStock, index) => (
+                <div key={index} className="stockInfo">
+                  <h3>{exampleStock.symbol}</h3>
+                  {/* Display example stock data */}
+                  {exampleStock.data &&
+                  exampleStock.data["Time Series (5min)"] &&
+                  Object.keys(exampleStock.data["Time Series (5min)"]).length >
+                    0 ? (
+                    <div className="stockInformation">
+                      <p>
+                        <strong>Open:</strong>
+                        {
+                          exampleStock.data["Time Series (5min)"][
+                            Object.keys(
+                              exampleStock.data["Time Series (5min)"]
+                            )[0]
+                          ]["1. open"]
+                        }
+                      </p>
+                      <p>
+                        <strong>High:</strong>
+                        {
+                          exampleStock.data["Time Series (5min)"][
+                            Object.keys(
+                              exampleStock.data["Time Series (5min)"]
+                            )[0]
+                          ]["2. high"]
+                        }
+                      </p>
+                      <p>
+                        <strong>Low:</strong>
+                        {
+                          exampleStock.data["Time Series (5min)"][
+                            Object.keys(
+                              exampleStock.data["Time Series (5min)"]
+                            )[0]
+                          ]["3. low"]
+                        }
+                      </p>
+                      <p>
+                        <strong>Close:</strong>
+                        {
+                          exampleStock.data["Time Series (5min)"][
+                            Object.keys(
+                              exampleStock.data["Time Series (5min)"]
+                            )[0]
+                          ]["4. close"]
+                        }
+                      </p>
+                      <p>
+                        <strong>Volume:</strong>
+                        {
+                          exampleStock.data["Time Series (5min)"][
+                            Object.keys(
+                              exampleStock.data["Time Series (5min)"]
+                            )[0]
+                          ]["5. volume"]
+                        }
+                      </p>
+                    </div>
+                  ) : (
+                    <p>Data not available</p>
+                  )}
+                </div>
+              ))}
+              {/* Render actual stocks */}
+              {topStocks.map((stock, index) => (
+                <div key={index} className="stockInfo">
+                  <h3>{stock.symbol}</h3>
+                  {/* Display stock data */}
+                  {stock.data &&
+                  stock.data["Time Series (5min)"] &&
+                  Object.keys(stock.data["Time Series (5min)"]).length > 0 ? (
+                    <div className="stockInformation">
+                      <p>
+                        <strong>Open:</strong>
+                        {
+                          stock.data["Time Series (5min)"][
+                            Object.keys(stock.data["Time Series (5min)"])[0]
+                          ]["1. open"]
+                        }
+                      </p>
+                      <p>
+                        <strong>High:</strong>
+                        {
+                          stock.data["Time Series (5min)"][
+                            Object.keys(stock.data["Time Series (5min)"])[0]
+                          ]["2. high"]
+                        }
+                      </p>
+                      <p>
+                        <strong>Low:</strong>
+                        {
+                          stock.data["Time Series (5min)"][
+                            Object.keys(stock.data["Time Series (5min)"])[0]
+                          ]["3. low"]
+                        }
+                      </p>
+                      <p>
+                        <strong>Close:</strong>
+                        {
+                          stock.data["Time Series (5min)"][
+                            Object.keys(stock.data["Time Series (5min)"])[0]
+                          ]["4. close"]
+                        }
+                      </p>
+                      <p>
+                        <strong>Volume:</strong>
+                        {
+                          stock.data["Time Series (5min)"][
+                            Object.keys(stock.data["Time Series (5min)"])[0]
+                          ]["5. volume"]
+                        }
+                      </p>
+                    </div>
+                  ) : (
+                    <p>Data not available</p>
+                  )}
+                </div>
+              ))}
+            </div>
           </>
         ) : (
           <p className="nonMemberTitle">Please log in to view stock data.</p>

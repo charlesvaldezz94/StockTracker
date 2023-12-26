@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { auth } from "../../auth/firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import "./Register.css";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -29,35 +30,33 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
+    <div className="registerContainer">
+      <div className="registerTitle">Welcome new user! Please register!</div>
       {registrationSuccess && (
         <p style={{ color: "green" }}>Registration successful! Welcome!</p>
       )}
       {registrationError && <p style={{ color: "red" }}>{registrationError}</p>}
-      <form onSubmit={handleRegistration}>
-        <label>
-          Email:
+      <div className="registerFormContainer">
+        <form onSubmit={handleRegistration}>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            placeholder="Email"
           />
-        </label>
-        <br />
-        <label>
-          Password:
+          <br />
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            placeholder="Password"
           />
-        </label>
-        <br />
-        <button type="submit">Register</button>
-      </form>
+          <br />
+          <button className='registerBtn' type="submit">Register</button>
+        </form>
+      </div>
     </div>
   );
 };

@@ -10,6 +10,12 @@
     margin-bottom: 5vh;
 }
 
+.titleStockImage {
+    width: 50px;
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+
 .homeTitle span {
     color: rgb(174, 249, 224);
 }

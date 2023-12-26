@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { auth } from '../../auth/firebase/firebase';
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { auth } from "../../auth/firebase/firebase";
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,15 +33,15 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setIsLoggedIn(true);
-      setSuccessMessage('Login successful! ' + `Welcome user: ${email}`);
+      setSuccessMessage("Login successful! " + `Welcome user: ${email}`);
 
       // Navigate to the home page after 3 seconds
       setTimeout(() => {
-        navigate('/');
+        navigate("/");
       }, 3000);
     } catch (error) {
-      console.error('Login error:', error.message);
-      setSuccessMessage('');
+      console.error("Login error:", error.message);
+      setSuccessMessage("");
     }
   };
 
@@ -44,32 +49,56 @@ const Login = () => {
     try {
       await signOut(auth);
       setIsLoggedIn(false);
-      setSuccessMessage('Logout successful!');
+      setSuccessMessage("Logout successful!");
     } catch (error) {
-      console.error('Logout error:', error.message);
-      setSuccessMessage('');
+      console.error("Logout error:", error.message);
+      setSuccessMessage("");
     }
   };
 
   return (
-    <div>
+    <div className="loginContainer">
       {!isLoggedIn ? (
-        <>
-          <h2>Login</h2>
-          <form onSubmit={handleLogin}>
-            <label>Email:</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <div className="loginInput">
+          <span className="loginTitleSpan">
+            <img src="/images/stocks.png" className="titleStockImage" />
+            <div className="loginTitle">Hello! Please Login! </div>
+            <img src="/images/stocks.png" className="titleStockImage" />
+          </span>
+          <div className="loginFormContainer">
+            <form onSubmit={handleLogin}>
+              <span>
+                <input
+                  type="email"
+                  value={email}
+                  placeholder="Email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </span>
 
-            <label>Password:</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <span>
+                <input
+                  type="password"
+                  value={password}
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </span>
 
-            <button type="submit">Login</button>
-          </form>
-        </>
+              <button className="loginBtn" type="submit">
+                Login
+              </button>
+            </form>
+          </div>
+        </div>
       ) : (
-        <div>
+        <div className="loginMessages">
           <p>{successMessage}</p>
-          <button onClick={handleLogout}>Logout</button>
+          <button className="loginBtn" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       )}
     </div>
